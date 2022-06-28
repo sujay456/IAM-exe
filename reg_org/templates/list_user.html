@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+
+{% block body%}
+
+
+{% if user.is_authenticated %}
+    <p> Welcome {{user.get_username}} </p>
+    
+    <p>
+        <a href="{% url 'register_permission'%}">Register Permissions</a>
+
+    </p>
+    
+    <p>
+        <a href="{% url 'add_user' %}">Add user</a>
+
+    </p>
+
+    <h4>List of all the Permissions</h4>
+    <ul>
+        {% for p in permissions%}
+            <li>
+                {{p.permission_name}}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Total number of Employees: {{num_of_users}}</h3>
+    <h1>List of all Employees </h1>
+    <ul>
+
+        {% for emp in emps%}
+            <li>
+                <a href="{% url 'detail' emp.emp.id%}">
+                    <p>{{emp.emp.username}} - {{emp.prem}} </p>
+                </a>
+            </li>
+        {%endfor%}
+    </ul>
+    
+    <p>
+        Use this Client ID: <strong>{{client_secret}}</strong> for further use 
+    </p>
+    <p> 
+        <a href="/root/logout">Logout</a>
+    </p>
+
+    
+{% else %}
+    <p>You are logged out</p>
+    <p>
+        <a href="/root/login">Login</a>
+    </p>
+
+{% endif %}
+
+{% endblock %}
+
+

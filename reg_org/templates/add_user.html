@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container">
+    <h3>Add User</h3>
+
+    <form  method="post">
+        {% csrf_token %}
+    
+        <div class="form-row">
+            
+            <!-- {% for p in perms %}
+                
+                <div class="col">
+                    {{form.p.permission_name.label_tag}}
+                    {{form.p.permission_name}}
+                </div>    
+            {% endfor %} -->
+            {{form.as_p}}
+            <div class="col">
+               <input type="submit" value="Add User">
+            </div>
+            
+        </div>
+    </form>
+    
+    
+    
+    <a href="{% url 'list'%}">go back</a>
+    
+</div>
+
+{%endblock%}
