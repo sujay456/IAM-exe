@@ -46,7 +46,7 @@ def regOrgView(request):
     else:
         form =RegisterationForm()
         
-    return render(request,'reg_form.html',{'form':form})
+    return render(request,'reg_forms.html',{'form':form})
 
 def loginView(request):
     
