@@ -1,6 +1,10 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from django.utils import timezone
+
+
 # Create your models here.
 
 class Organization(models.Model):
@@ -42,3 +46,29 @@ class UserPermissions(models.Model):
     emp=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     
     perm_name=models.ForeignKey(Permissions, on_delete=models.CASCADE,null=True)
+    
+class LoginHistory(models.Model):
+    org=models.ForeignKey(Organization, on_delete=models.CASCADE,null=True)
+    
+    login_time=models.DateTimeField(auto_now_add=True,null=True)  #auto now add can fill this field when it is created
+    
+    login_user=models.CharField(max_length=255,null=True)
+    
+    status=models.CharField(max_length=100,null=True)
+    
+    message=models.CharField(max_length=100,null=True,default="Ok")
+    def __str__(self):
+        
+        return f"{self.login_time} {self.login_user} {self.status} {self.message} "
+
+class RegisterHistory(models.Model):
+    org=models.ForeignKey(Organization, on_delete=models.CASCADE,null=True)
+    
+    register_time=models.DateTimeField(auto_now_add=True,null=True)
+    
+    register_user=models.CharField(max_length=100)
+    
+    status=models.CharField(max_length=100)
+    
+    def __str__(self):
+        return f"{self.org} {self.register_time} {self.register_user} {self.status}"

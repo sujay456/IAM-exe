@@ -1,3 +1,4 @@
+from email import message
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -6,7 +7,7 @@ from django.contrib.auth import authenticate,login
 import jwt
 import datetime
 from django.utils import timezone
-from reg_org.models import Organization,UserPermissions
+from reg_org.models import Organization,UserPermissions,LoginHistory
 import uuid
 from django.core.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
@@ -19,7 +20,12 @@ def login_view(request,org):
         if Organization.objects.filter(org_name=org).exists():
             client_secret=request.META.get('HTTP_CLIENT_SECRET')
             org=Organization.objects.get(client_secret=client_secret)
-            
+            # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+            # if x_forwarded_for:
+            #     ip = x_forwarded_for.split(',')[0]
+            # else:
+            #     ip = request.META.get('REMOTE_ADDR')
+            # print(ip)
             if org is None:
                 return Response({"error":'Invalid secret Key'})  
             
@@ -45,7 +51,7 @@ def login_view(request,org):
                             'refresh_token':str(refresh),
                             'username':user.username
                         }
-                        
+                        LoginHistory.objects.create(org=org,login_user=username,status="success")
                         return Response(data)
                         
                     else:
@@ -54,9 +60,13 @@ def login_view(request,org):
                             'message':'Invalid credentials'
                             
                         }
+                        LoginHistory.objects.create(org=org,login_user=username,status="failed",message="Invalid credentials")
+                        
                         return Response(data=data,status=status.HTTP_403_FORBIDDEN)
                         
                 else:
+                    LoginHistory.objects.create(org=org,login_user=username,status="failed",message="Erros in Form")
+
                     return Response({'error':serializer.errors})
         else:
             return Response({'error':'Invalid URL'})

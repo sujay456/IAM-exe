@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+Register Logs
+
+<ul>
+
+{% for l in logs %}
+    <li>
+        <span>{{l.time}}</span> |
+        <span>{{l.user}} </span> |
+        <span>{{l.status}}</span> |
+    </li>        
+{% endfor %}
+</ul>
+
+{% endblock %}

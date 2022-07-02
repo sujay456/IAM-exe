@@ -10,5 +10,7 @@ urlpatterns = [
     path('register_permission',views.registerPermissionView,name='register_permission'),
     path('logout',views.logoutView,name='logout'),
     path('detail/<int:pk>',views.empDetails,name='detail'),
+    path('loginlog',views.loginLogView,name='loginlog'),
+    path('registerlog',views.registerLogView,name='registerlog')
 ]
 

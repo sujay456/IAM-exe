@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Organization,IsRoot,PartOf,Permissions,UserPermissions
+from .models import LoginHistory, Organization,IsRoot,PartOf,Permissions,UserPermissions,RegisterHistory
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -152,7 +152,7 @@ def addUserView(request):
                         UserPermissions.objects.create(emp=user,perm_name=p)
                 
                 messages.success(request,"user created successfully")
-                
+                RegisterHistory.objects.create(org=org,register_user=username,status="OK")
                 return redirect('list')
         else:
             form=EmployeeRegForm(prefix=org)
@@ -162,7 +162,38 @@ def addUserView(request):
     
     except ObjectDoesNotExist:
         return render(request,'error.html',{'error':'data not found'})
+@login_required
+def loginLogView(request):
     
+    try:
+        org=Organization.objects.get(head_user=request.user)
+        logs=LoginHistory.objects.filter(org=org)
+        
+        context_log=[]
+        
+        for l in logs:
+            context_log.append({'org':l.org,'status':l.status,'time':l.login_time,'mssg':l.message,'user':l.login_user})
+        
+        return render(request,'loginlog.html',{'logs':context_log})
+        
+    except ObjectDoesNotExist:
+        return render(request,'error.html',{'error':'data not found'})
+@login_required
+def registerLogView(request):
+    
+    try:
+        org=Organization.objects.get(head_user=request.user)
+        logs=RegisterHistory.objects.filter(org=org)
+        
+        context_log=[]
+        
+        for l in logs:
+            context_log.append({'org':l.org,'status':l.status,'time':l.register_time,'user':l.register_user})
+        
+        return render(request,'registerlog.html',{'logs':context_log})
+        
+    except ObjectDoesNotExist:
+        return render(request,'error.html',{'error':'data not found'})
 def registerPermissionView(request):
     
     try:

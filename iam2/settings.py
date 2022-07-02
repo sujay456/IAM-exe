@@ -27,8 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
-
+LOGIN_REDIRECT_URL = '/root/login'
+LOGIN_URL = '/root/login'
+TIME_ZONE =  'Asia/Kolkata'
 # Application definition
 
 INSTALLED_APPS = [
