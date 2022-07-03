@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d7b7c1ea-058b-45d6-b3c4-db256f909628" name="Changes" comment="" />
+    <list default="true" id="d7b7c1ea-058b-45d6-b3c4-db256f909628" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/account/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/account/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iam2/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/iam2/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iam2/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/iam2/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/templates/list_user.html" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/templates/list_user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/templates/loginlog.html" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/templates/loginlog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="2BC0xOxv3ENfDTLRscCxOJ4Zh37" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/sujay/Documents/samsung/iam2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/sujay/Documents/samsung/iam2&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

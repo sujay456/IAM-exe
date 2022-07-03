@@ -46,7 +46,7 @@ def regOrgView(request):
     else:
         form =RegisterationForm()
         
-    return render(request,'reg_forms.html',{'form':form})
+    return render(request,'reg_form.html',{'form':form})
 
 def loginView(request):
     
@@ -87,9 +87,17 @@ def listView(request):
     
     try:
         org=Organization.objects.get(head_user=request.user)
+        usernamesearch=request.GET.get('username')
+        
+        if usernamesearch is not None:
+            user=User.objects.get(username=usernamesearch)
+            if user is not None:
+                return redirect(reverse('detail', kwargs={'pk': user.pk}))
+                                
         permissions=Permissions.objects.all()
         all_emps=PartOf.objects.filter(org=org)
-        return render(request,'list_user.html',{'num_of_users':org.num_of_users,'emps':all_emps,'client_secret':org.client_secret,'permissions':permissions})
+        num=all_emps.count()
+        return render(request,'list_user.html',{'num_of_users':num,'emps':all_emps,'client_secret':org.client_secret,'permissions':permissions})
     
     except ObjectDoesNotExist:
         return render(request,'error.html',{'error':'data not found'})
@@ -101,7 +109,12 @@ def empDetails(request,pk):
     try:
         user=User.objects.get(pk=pk)
         emp=PartOf.objects.get(emp=user)
-
+        usernamesearch=request.GET.get('username')
+        
+        if usernamesearch is not None:
+            user=User.objects.get(username=usernamesearch)
+            if user is not None:
+                return redirect(reverse('detail', kwargs={'pk': user.pk}))
         if request.method == 'POST':
             form=EmployeeUpdForm(request.POST)
             
@@ -119,8 +132,8 @@ def empDetails(request,pk):
         form=EmployeeUpdForm({'username':user.username,'email':user.email})    
         
         return render(request,'empDetail.html',{'name':emp.emp.username,'org':emp.org.org_name,'form':form})
-    except IntegrityError as e:
-        return render(request,'error.html',{'error':'Cannot update'})
+    except (IntegrityError,ObjectDoesNotExist) as e:
+        return render(request,'error.html',{'error':e.__cause__})
 
 @login_required
 def addUserView(request):
@@ -168,11 +181,16 @@ def loginLogView(request):
     try:
         org=Organization.objects.get(head_user=request.user)
         logs=LoginHistory.objects.filter(org=org)
+        usernamesearch=request.GET.get('username')
         
+        if usernamesearch is not None:
+            user=User.objects.get(username=usernamesearch)
+            if user is not None:
+                return redirect(reverse('detail', kwargs={'pk': user.pk}))
         context_log=[]
         
         for l in logs:
-            context_log.append({'org':l.org,'status':l.status,'time':l.login_time,'mssg':l.message,'user':l.login_user})
+            context_log.append({'org':l.org,'status':l.status,'time':l.login_time,'mssg':l.message,'user':l.login_user,'type':l.type})
         
         return render(request,'loginlog.html',{'logs':context_log})
         
@@ -184,7 +202,12 @@ def registerLogView(request):
     try:
         org=Organization.objects.get(head_user=request.user)
         logs=RegisterHistory.objects.filter(org=org)
+        usernamesearch=request.GET.get('username')
         
+        if usernamesearch is not None:
+            user=User.objects.get(username=usernamesearch)
+            if user is not None:
+                return redirect(reverse('detail', kwargs={'pk': user.pk}))
         context_log=[]
         
         for l in logs:
@@ -198,7 +221,12 @@ def registerPermissionView(request):
     
     try:
         org=Organization.objects.get(head_user=request.user)
+        usernamesearch=request.GET.get('username')
         
+        if usernamesearch is not None:
+            user=User.objects.get(username=usernamesearch)
+            if user is not None:
+                return redirect(reverse('detail', kwargs={'pk': user.pk}))
         if request.method == 'POST':
             form=PermissionRegisterForm(request.POST)
             
@@ -214,11 +242,22 @@ def registerPermissionView(request):
         return render(request,'add_permission.html',{'form':form})
     except ObjectDoesNotExist:
         return render(request,'error.html',{'error':'data not found'})
-        
+
+def homeView(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('list'))
+    
+    return render(request,'home.html')
+
 def logoutView(request):
-    logout(request)
+     
+    try:
+        
+        logout(request)
+        messages.success(request,"Logged out successfully")
+        return redirect(reverse('login'))
+
+    except ObjectDoesNotExist:
+        return render(request,'error.html',{'error':'data not found'})
+
     
-    messages.success(request,"Logged out successfully")
-    # Redirect to a success page.
-    
-    return redirect(reverse('login'))
