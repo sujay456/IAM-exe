@@ -94,7 +94,7 @@ def listView(request):
             if user is not None:
                 return redirect(reverse('detail', kwargs={'pk': user.pk}))
                                 
-        permissions=Permissions.objects.all()
+        permissions=Permissions.objects.filter(org=org)
         all_emps=PartOf.objects.filter(org=org)
         num=all_emps.count()
         return render(request,'list_user.html',{'num_of_users':num,'emps':all_emps,'client_secret':org.client_secret,'permissions':permissions})
