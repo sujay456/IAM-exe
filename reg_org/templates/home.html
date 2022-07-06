@@ -1,0 +1,33 @@
+{% extends 'base.html'%}
+
+{% block body%}
+
+
+
+  <div class=".container-xl" style="margin: 2%;">
+    <!-- Content here -->
+
+    Hello, This is an Identity and Access Management System (IAM) , which can be used by different Organizations to manage their Users.
+    <h3 style="margin-top: 20px;">
+        How Can You Do it ?
+    </h3>
+    
+    
+    <h5 style="margin-top: 20px;">
+        Steps:-
+    </h5>
+    <ul class="list-group">
+        <li class="list-group-item">Regiser as an Organizations</li>
+        <li class="list-group-item">Add permission Levels</li>
+        <li class="list-group-item">Add Users of your Organization</li>
+        <li class="list-group-item">Add Permissions to different Users</li>
+        
+      </ul>
+      <h5 style="margin-top: 20px;">
+        How is it Done?
+      </h5>
+      <span>It uses Token (specifically JWT tokens) for authentication and authorization. It is like any other Oauth , which generates a token with <strong>Restricted access</strong> which can be configured by the organization .Hence ensuring not all the data is exposed to third party</span>
+  </div>
+ 
+
+  {% endblock %}

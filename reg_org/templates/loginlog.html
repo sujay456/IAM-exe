@@ -6,6 +6,7 @@ Login Logs
 
 {% for l in logs %}
     <li>
+        <span>[ {{l.type}} ]</span>
         <span>{{l.time}}</span> |
         <span>{{l.user}} </span> |
         <span>{{l.status}}</span> |

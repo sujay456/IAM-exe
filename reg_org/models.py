@@ -54,7 +54,9 @@ class LoginHistory(models.Model):
     
     login_user=models.CharField(max_length=255,null=True)
     
-    status=models.CharField(max_length=100,null=True)
+    status=models.CharField(max_length=100,null=True,default="success")
+    
+    type=models.CharField(max_length=255,null=True)
     
     message=models.CharField(max_length=100,null=True,default="Ok")
     def __str__(self):

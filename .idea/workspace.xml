@@ -2,8 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d7b7c1ea-058b-45d6-b3c4-db256f909628" name="Changes" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/commands.txt" beforeDir="false" afterPath="$PROJECT_DIR$/commands.txt" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/account/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/account/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iam2/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/iam2/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iam2/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/iam2/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/templates/list_user.html" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/templates/list_user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/templates/loginlog.html" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/templates/loginlog.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reg_org/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/reg_org/views.py" afterDir="false" />
+>>>>>>> 942c130f8eb4614746c474514ff157b082fcc448
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,9 +26,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< HEAD
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+=======
+>>>>>>> 942c130f8eb4614746c474514ff157b082fcc448
   <component name="ProjectId" id="2BC0xOxv3ENfDTLRscCxOJ4Zh37" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -28,6 +44,7 @@
     &quot;last_opened_file_path&quot;: &quot;C:/Users/sujay/Documents/samsung/iam2&quot;
   }
 }</component>
+<<<<<<< HEAD
   <component name="RunManager">
     <configuration name="iam2" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="iam2" />
@@ -51,6 +68,8 @@
       <method v="2" />
     </configuration>
   </component>
+=======
+>>>>>>> 942c130f8eb4614746c474514ff157b082fcc448
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

@@ -20,6 +20,7 @@ def login_view(request,org):
         if Organization.objects.filter(org_name=org).exists():
             client_secret=request.META.get('HTTP_CLIENT_SECRET')
             org=Organization.objects.get(client_secret=client_secret)
+            
             # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
             # if x_forwarded_for:
             #     ip = x_forwarded_for.split(',')[0]
@@ -51,7 +52,7 @@ def login_view(request,org):
                             'refresh_token':str(refresh),
                             'username':user.username
                         }
-                        LoginHistory.objects.create(org=org,login_user=username,status="success")
+                        LoginHistory.objects.create(org=org,login_user=username,status="success",type="Log In")
                         return Response(data)
                         
                     else:
@@ -60,12 +61,12 @@ def login_view(request,org):
                             'message':'Invalid credentials'
                             
                         }
-                        LoginHistory.objects.create(org=org,login_user=username,status="failed",message="Invalid credentials")
+                        LoginHistory.objects.create(org=org,login_user=username,status="failed",message="Invalid credentials",type="Log In")
                         
                         return Response(data=data,status=status.HTTP_403_FORBIDDEN)
                         
                 else:
-                    LoginHistory.objects.create(org=org,login_user=username,status="failed",message="Erros in Form")
+                    LoginHistory.objects.create(org=org,login_user=username,status="failed",message="Erros in Form",type="Log In")
 
                     return Response({'error':serializer.errors})
         else:
@@ -83,10 +84,16 @@ def logout_view(request,org):
         if serializer.is_valid():
             
             # there is a custom save method in the serializer class
+            client_secret=request.META.get('HTTP_CLIENT_SECRET')
+            org=Organization.objects.get(client_secret=client_secret)
+            
+            LoginHistory.objects.create(org=org,login_user=request.user.username,type="Log Out")
+            
             serializer.save()
             
             return Response(status=status.HTTP_204_NO_CONTENT)
-    except TokenError as e:
+    except (TokenError) as e :
+        LoginHistory.objects.create(org=org,login_user=request.user.username,status="Failed",type="Log Out")
         return Response({'error':"Token BlackListed"})
 
 
