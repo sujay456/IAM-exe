@@ -30,6 +30,7 @@ class EmployeeRegForm(forms.Form):
         # from here onwareds we can create dynamic fields
         org=kwargs.pop('prefix')
         
+        
         perms=Permissions.objects.filter(org=org)
         for p in perms:
             self.fields[p.permission_name]=forms.BooleanField(required=False)
@@ -48,10 +49,23 @@ class EmployeePermissionForm(forms.ModelForm):
         model=Permissions
         fields="__all__"
 class EmployeeUpdForm(forms.Form):
-    
+    def __init__(self, *args, **kwargs):
+        # from here onwareds we can create dynamic fields
+        
+        org=kwargs.pop('prefix')
+        
+        
+        perms=Permissions.objects.filter(org=org)
+        super(EmployeeUpdForm, self).__init__(*args, **kwargs)
+        print(args, kwargs)
+        for p in perms:
+            self.fields[p.permission_name]=forms.BooleanField(required=False)
+        
     username = forms.CharField(max_length=100,widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'Username'}))
     email = forms.EmailField(max_length=100,widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'email'}))
     
+    
+        
     
 
 class PermissionRegisterForm(forms.Form):

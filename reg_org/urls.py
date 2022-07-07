@@ -12,6 +12,7 @@ urlpatterns = [
     path('logout',views.logoutView,name='logout'),
     path('detail/<int:pk>',views.empDetails,name='detail'),
     path('loginlog',views.loginLogView,name='loginlog'),
-    path('registerlog',views.registerLogView,name='registerlog')
+    path('registerlog',views.registerLogView,name='registerlog'),
+    path('deletePerm/<int:pk>',views.deletePermissionView,name='deletePerm'),
 ]
 

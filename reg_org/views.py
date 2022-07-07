@@ -110,30 +110,53 @@ def empDetails(request,pk):
         user=User.objects.get(pk=pk)
         emp=PartOf.objects.get(emp=user)
         usernamesearch=request.GET.get('username')
-        
+        org=Organization.objects.get(head_user=request.user)
+        userperms=UserPermissions.objects.filter(emp=user)
+        perms=Permissions.objects.filter(org=org)
         if usernamesearch is not None:
             user=User.objects.get(username=usernamesearch)
             if user is not None:
                 return redirect(reverse('detail', kwargs={'pk': user.pk}))
         if request.method == 'POST':
-            form=EmployeeUpdForm(request.POST)
+            
+            form=EmployeeUpdForm(request.POST,prefix=org)
             
             if form.is_valid():
                 username=form.cleaned_data['username']
                 email=form.cleaned_data['email']
                 
+                
                 user.username=username
                 user.email=email
                 user.save()
+                dict={}
+                for p in perms:
+                    dict[p.permission_name]=False
+                for p in userperms:
+                    dict[p.perm_name.permission_name]=True
+                    if form.cleaned_data[p.perm_name.permission_name]==False:
+                        p.delete()
                 
+                for p in perms:
+                    if dict[p.permission_name]:
+                        continue
+                    
+                    if form.cleaned_data[p.permission_name]==True:
+                        UserPermissions.objects.create(emp=user,perm_name=p)            
                 
                 messages.success(request,"changes updated successfully")
-
-        form=EmployeeUpdForm({'username':user.username,'email':user.email})    
+        data={'username':user.username,'email':user.email}
+        
+        for p in perms:
+            data[p.permission_name]=False
+        userperms=UserPermissions.objects.filter(emp=user)
+        for p in userperms:
+            data[p.perm_name.permission_name]=True
+        form=EmployeeUpdForm(data,prefix=org)    
         
         return render(request,'empDetail.html',{'name':emp.emp.username,'org':emp.org.org_name,'form':form})
     except (IntegrityError,ObjectDoesNotExist) as e:
-        return render(request,'error.html',{'error':e.__cause__})
+        return render(request,'error.html',{'error':'User does not exist'})
 
 @login_required
 def addUserView(request):
@@ -261,3 +284,20 @@ def logoutView(request):
         return render(request,'error.html',{'error':'data not found'})
 
     
+@login_required
+def deletePermissionView(request,pk):
+    
+    try:
+        org=Organization.objects.get(head_user=request.user)
+        # user=User.objects.get(user=request.user.username)
+        
+        permission=Permissions.objects.get(pk=pk,org=org)
+        
+        permission.delete()
+        
+        return redirect(reverse('list'))
+                        
+    except Permissions.DoesNotExist:
+        return render(request,'error.html',{'error':'Permission does not exist'})
+    except Organization.DoesNotExist:
+        return render(request,'error.html',{'error':'Organization not found'})
