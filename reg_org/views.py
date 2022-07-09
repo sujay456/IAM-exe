@@ -59,7 +59,7 @@ def loginView(request):
             # print(form.cleaned_data)
             username=form.cleaned_data['username']
             password=form.cleaned_data['password']
-            
+            print(password)
             user=authenticate(username=username,password=password)
             
             if user is not None:
@@ -267,8 +267,8 @@ def registerPermissionView(request):
         return render(request,'error.html',{'error':'data not found'})
 
 def homeView(request):
-    if request.user.is_authenticated:
-        return redirect(reverse('list'))
+    # if request.user.is_authenticated:
+    #     return redirect(reverse('list'))
     
     return render(request,'home.html')
 
@@ -301,3 +301,23 @@ def deletePermissionView(request,pk):
         return render(request,'error.html',{'error':'Permission does not exist'})
     except Organization.DoesNotExist:
         return render(request,'error.html',{'error':'Organization not found'})
+    
+@login_required
+def userDeletionView(request,pk):
+    
+    try:
+        org=Organization.objects.get(head_user=request.user)
+        user=User.objects.get(pk=pk)
+        
+        PartOf.objects.get(emp=user,org=org)
+        
+        user.delete()
+        
+        return redirect(reverse('list'))
+        
+    except Organization.DoesNotExist:
+        return render(request,'error.html',{'error':'Organization not found'})
+    except User.DoesNotExist:
+        return render(request,'error.html',{'error':'Looks Like user does not exist'})
+    except PartOf.DoesNotExist:
+        return render(request,'error.html',{'error':'Permission denied'})

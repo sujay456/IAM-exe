@@ -49,7 +49,9 @@
                     <p>{{emp.emp.username}} </p>
                 </a></td>
                 <td>{{emp.emp.email}}</td>
-                
+                <td>
+                    <a type="button" class="btn btn-danger" href="{% url 'deleteuser' emp.emp.id %}">Delete</a>
+                </td>
               </tr>  
               {%endfor%}
 

@@ -14,5 +14,6 @@ urlpatterns = [
     path('loginlog',views.loginLogView,name='loginlog'),
     path('registerlog',views.registerLogView,name='registerlog'),
     path('deletePerm/<int:pk>',views.deletePermissionView,name='deletePerm'),
+    path('deleteuser/<int:pk>',views.userDeletionView,name='deleteuser'),
 ]
 
