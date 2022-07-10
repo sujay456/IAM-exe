@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate,login
 import jwt
 import datetime
 from django.utils import timezone
-from reg_org.models import Organization,UserPermissions,LoginHistory
+from reg_org.models import Organization,UserPermissions,LoginHistory,IsRoot
 import uuid
 from django.core.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
@@ -43,6 +43,17 @@ def login_view(request,org):
                     if user is not None:
                         # as the user exist in the database , we now need to generate a jwt token 
                         # now i can decide what things i can give to encode the payload
+                        
+                        isroot=IsRoot.objects.get(user=user)
+                        
+                        if isroot.is_root==True:
+                            print("hello")
+                            data={
+                            'message':'Invalid credentials'
+                            
+                            }
+                            LoginHistory.objects.create(org=org,login_user=username,status="failed",message="Invalid credentials",type="Log In")
+                            return Response(data=data,status=status.HTTP_403_FORBIDDEN)
                         refresh = RefreshToken.for_user(user)
                         
                                         
