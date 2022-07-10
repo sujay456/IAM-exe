@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import render,redirect
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -8,10 +9,23 @@ from django.contrib.auth.decorators import login_required
 from .form import RegisterationForm,LoginForm,EmployeeRegForm,EmployeeUpdForm,PermissionRegisterForm,EmployeePermissionForm
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import IntegrityError
 
 from django.contrib import messages
 import uuid
+import re
+
+
+# utility functions
+def check_password_validity(password):
+    reg="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
+    pat=re.compile(reg)
+    print("hello from password")
+    if re.search(pat,password):
+        return True
+    else:
+        return False
+        
+
 
 def regOrgView(request):
     if request.user.is_authenticated:
@@ -32,7 +46,9 @@ def regOrgView(request):
                 else:
                     messages.error(request,'Either organization or username is registered already')
                 return redirect(reverse('register'))            
-            
+            if check_password_validity(p1)==False:    
+                messages.success(request,"Password must include capital letters ,special characters [@$!%*#?&] , numbers")
+                return redirect(reverse('register'))
             user=User(username=username,email=email)
             user.set_password(p1)
             user.save()
@@ -170,13 +186,16 @@ def addUserView(request):
                 
                 print(form.cleaned_data)
                 username=form.cleaned_data['username']
+                
                 password=form.cleaned_data['password']
+                
+                if check_password_validity(password)==False:
+                    
+                    messages.success(request,"Password must include capital letters ,special characters [@$!%*#?&] , numbers")
+                    return redirect(reverse('add_user'))
                 email=form.cleaned_data['email']
                 user=User.objects.create(username=username,email=email)
-
-                user.set_password(password)
-                user.save()
-
+                
                 IsRoot.objects.create(is_root=False,user=user)
                 org.num_of_users+=1;
                 org.save()
@@ -198,6 +217,9 @@ def addUserView(request):
     
     except ObjectDoesNotExist:
         return render(request,'error.html',{'error':'data not found'})
+    except IntegrityError as e:
+        return render(request,'error.html',{'error':'username already in use'})
+    
 @login_required
 def loginLogView(request):
     
